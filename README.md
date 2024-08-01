@@ -15,8 +15,11 @@ Here's a streamlined version of the `README.md` focusing on features and an over
 - **Billing & Payments**: Handle payments with integrated Stripe support for a smooth financial management experience.
 - **Dashboard**: View key statistics and insights about gym operations at a glance.
 - **Responsive Design**: Enjoy a modern and mobile-friendly interface designed with Tailwind CSS.
-- **User Authentication**: Secure login and user management via Keycloak.
+- **User Authentication**: Secure login and user management.
 - **Admin Controls**: Access comprehensive admin features to oversee and control various aspects of the gym.
+
+## Contact
+For any inquiries or issues, please contact anubhavtripathi0509@gmail.com.
 
 ---
 
