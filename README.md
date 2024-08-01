@@ -1,5 +1,3 @@
-Here's a streamlined version of the `README.md` focusing on features and an overview of the software:
-
 ---
 
 # GymAutomata
