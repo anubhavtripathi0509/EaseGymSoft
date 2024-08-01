@@ -16,7 +16,9 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="flex flex-wrap gap-2">
+    <>
+    <h1 className="text-2xl font-bold mb-4">Welcome, Admin</h1>
+    <nav className="flex flex-wrap gap-2 mb-4">
       {navItems.map((item, index) => (
         <NavLink
           key={index}
@@ -33,6 +35,7 @@ const Navbar = () => {
         </NavLink>
       ))}
     </nav>
+    </>
   );
 };
 

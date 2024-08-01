@@ -1,10 +1,11 @@
 import React from 'react';
+import Navbar from '../Navbar';
 import { FaRegChartBar, FaRegCalendarAlt, FaUserPlus, FaRupeeSign, FaUserClock, FaHeartbeat, FaCalendarCheck, FaUserTie, FaClipboardList, FaCalendarDay, FaWalking } from 'react-icons/fa';
 
 const MainContent = () => {
   return (
     <div className="p-4 bg-blue-50 min-h-screen">
-      <h1 className="text-2xl font-bold mb-4">Summary Statistics</h1>
+        <Navbar />
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
         <StatCard title="New clients" value="3" color="bg-green-100" icon={<FaUserPlus className="text-green-500" />} />
         <StatCard title="Total collection" value="2,003.00" color="bg-purple-100" icon={<FaRegChartBar className="text-purple-500" />} />

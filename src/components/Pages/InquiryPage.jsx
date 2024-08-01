@@ -73,10 +73,9 @@ const InquiryPage = () => {
 
   return (
     <div className="p-4 bg-blue-50 min-h-screen">
-      <h1 className="text-2xl font-bold mb-4">Welcome, Admin</h1>
-      <div className="mb-4">
+
         <Navbar />
-      </div>
+        
       <div className="flex justify-between items-center mb-4">
         <div>
           <select className="border border-gray-300 rounded-lg p-2 mr-2">
