@@ -1,7 +1,76 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import Navbar from '../Navbar';
+import FollowUp from '../FollowUP';
 
 const InquiryPage = () => {
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    contactNumber: '',
+    alternateContact: '',
+    email: '',
+    gender: '',
+    areaAddress: '',
+    followUpDate: '',
+    followUpTime: '',
+    assessmentDate: '',
+    status: '',
+    convertibility: '',
+    sourceOfInquiry: '',
+    inquiryFor: '',
+    attendedBy: '',
+    responseFeedback: '',
+    sendNotifications: false,
+  });
+
+  const [followUps, setFollowUps] = useState([]);
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData({
+      ...formData,
+      [name]: type === 'checkbox' ? checked : value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const newFollowUp = {
+      id: Date.now(),
+      clientName: `${formData.firstName} ${formData.lastName}`,
+      followUpDate: formData.followUpDate,
+      followUpTime: formData.followUpTime,
+      assessmentDate: formData.assessmentDate,
+      status: formData.status,
+      convertibility: formData.convertibility,
+      sourceOfInquiry: formData.sourceOfInquiry,
+      inquiryFor: formData.inquiryFor,
+      attendedBy: formData.attendedBy,
+      responseFeedback: formData.responseFeedback,
+      sendNotifications: formData.sendNotifications,
+    };
+    setFollowUps([...followUps, newFollowUp]);
+    setFormData({
+      firstName: '',
+      lastName: '',
+      contactNumber: '',
+      alternateContact: '',
+      email: '',
+      gender: '',
+      areaAddress: '',
+      followUpDate: '',
+      followUpTime: '',
+      assessmentDate: '',
+      status: '',
+      convertibility: '',
+      sourceOfInquiry: '',
+      inquiryFor: '',
+      attendedBy: '',
+      responseFeedback: '',
+      sendNotifications: false,
+    });
+  };
+
   return (
     <div className="p-4 bg-blue-50 min-h-screen">
       <h1 className="text-2xl font-bold mb-4">Welcome, Admin</h1>
@@ -12,7 +81,6 @@ const InquiryPage = () => {
         <div>
           <select className="border border-gray-300 rounded-lg p-2 mr-2">
             <option>Contact No.</option>
-            {/* Add other options as needed */}
           </select>
           <input
             type="text"
@@ -25,68 +93,148 @@ const InquiryPage = () => {
         <h2 className="text-xl font-semibold">Create new Inquiry</h2>
       </div>
       <div className="bg-white p-4 rounded-b-lg shadow-lg">
-        <InquiryForm />
+        <InquiryForm formData={formData} handleChange={handleChange} handleSubmit={handleSubmit} />
       </div>
+      <FollowUp followUps={followUps} />
     </div>
   );
 };
 
-const Navbar = () => {
-  const navigate = useNavigate();
-
-  const navItems = [
-    { name: "Dashboard", path: "/" },
-    { name: "Inquiry", path: "/inquiry" },
-    { name: "Clients", path: "/clients" },
-    { name: "Billing & Payments", path: "/billing-payments" },
-    { name: "Sports", path: "/sports" },
-    { name: "Attendance", path: "/attendance" },
-    { name: "Reports", path: "/reports" },
-    { name: "Manage & Settings", path: "/manage-settings" },
-    { name: "Forms", path: "/forms" },
-    { name: "Feedbacks", path: "/feedbacks" },
-  ];
-
+const InquiryForm = ({ formData, handleChange, handleSubmit }) => {
   return (
-    <nav className="flex flex-wrap gap-2">
-      {navItems.map((item, index) => (
-        <button
-          key={index}
-          onClick={() => navigate(item.path)}
-          className={`px-4 py-2 rounded-lg ${
-            window.location.pathname === item.path
-              ? "bg-pink-500 text-white"
-              : "bg-gray-100 text-gray-700"
-          }`}
-        >
-          {item.name}
-        </button>
-      ))}
-    </nav>
-  );
-};
-
-const InquiryForm = () => {
-  return (
-    <form className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-      <InputField label="First Name" placeholder="Enter Name" required />
-      <InputField label="Last Name" placeholder="Enter Name" required />
-      <InputField label="Contact number" placeholder="Contact Number" required />
-      <InputField label="Alternate Contact" placeholder="Alternate Contact" />
-      <InputField label="E-Mail" placeholder="Email Account" required />
-      <SelectField label="Gender" options={["Male", "Female", "Other"]} required />
-      <InputField label="Area Address" placeholder="Area Address" />
-      <InputField label="Schedule follow-up" type="date" required />
-      <InputField label="Schedule follow-up time" placeholder="Enter Time" />
-      <InputField label="Assessment date" type="date" />
-      <SelectField label="Status" options={["Pending", "Completed"]} required />
-      <SelectField label="Convertibility" options={["Warm", "Cold"]} required />
-      <SelectField label="Source of Inquiry" options={["--Select--"]} required />
-      <SelectField label="Inquiry for" options={["--Select--"]} required />
-      <InputField label="Attended by" placeholder="Admin" />
-      <InputField label="Response / feedback" placeholder="" required />
+    <form className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" onSubmit={handleSubmit}>
+      <InputField
+        label="First Name"
+        name="firstName"
+        placeholder="Enter Name"
+        value={formData.firstName}
+        onChange={handleChange}
+        required
+      />
+      <InputField
+        label="Last Name"
+        name="lastName"
+        placeholder="Enter Name"
+        value={formData.lastName}
+        onChange={handleChange}
+        required
+      />
+      <InputField
+        label="Contact number"
+        name="contactNumber"
+        placeholder="Contact Number"
+        value={formData.contactNumber}
+        onChange={handleChange}
+        required
+      />
+      <InputField
+        label="Alternate Contact"
+        name="alternateContact"
+        placeholder="Alternate Contact"
+        value={formData.alternateContact}
+        onChange={handleChange}
+      />
+      <InputField
+        label="E-Mail"
+        name="email"
+        placeholder="Email Account"
+        value={formData.email}
+        onChange={handleChange}
+        required
+      />
+      <SelectField
+        label="Gender"
+        name="gender"
+        options={["Male", "Female", "Other"]}
+        value={formData.gender}
+        onChange={handleChange}
+        required
+      />
+      <InputField
+        label="Area Address"
+        name="areaAddress"
+        placeholder="Area Address"
+        value={formData.areaAddress}
+        onChange={handleChange}
+      />
+      <InputField
+        label="Schedule follow-up"
+        name="followUpDate"
+        type="date"
+        value={formData.followUpDate}
+        onChange={handleChange}
+        required
+      />
+      <InputField
+        label="Schedule follow-up time"
+        name="followUpTime"
+        placeholder="Enter Time"
+        value={formData.followUpTime}
+        onChange={handleChange}
+      />
+      <InputField
+        label="Assessment date"
+        name="assessmentDate"
+        type="date"
+        value={formData.assessmentDate}
+        onChange={handleChange}
+      />
+      <SelectField
+        label="Status"
+        name="status"
+        options={["Pending", "Completed"]}
+        value={formData.status}
+        onChange={handleChange}
+        required
+      />
+      <SelectField
+        label="Convertibility"
+        name="convertibility"
+        options={["Warm", "Cold"]}
+        value={formData.convertibility}
+        onChange={handleChange}
+        required
+      />
+      <SelectField
+        label="Source of Inquiry"
+        name="sourceOfInquiry"
+        options={["--Select--"]}
+        value={formData.sourceOfInquiry}
+        onChange={handleChange}
+        required
+      />
+      <SelectField
+        label="Inquiry for"
+        name="inquiryFor"
+        options={["--Select--"]}
+        value={formData.inquiryFor}
+        onChange={handleChange}
+        required
+      />
+      <InputField
+        label="Attended by"
+        name="attendedBy"
+        placeholder="Admin"
+        value={formData.attendedBy}
+        onChange={handleChange}
+      />
+      <InputField
+        label="Response / feedback"
+        name="responseFeedback"
+        placeholder=""
+        value={formData.responseFeedback}
+        onChange={handleChange}
+        required
+      />
       <div className="col-span-1 md:col-span-2 lg:col-span-4 flex items-center">
-        <input type="checkbox" id="sendNotifications" className="mr-2" />
+        <input
+          type="checkbox"
+          id="sendNotifications"
+          name="sendNotifications"
+          className="mr-2"
+          checked={formData.sendNotifications}
+          onChange={handleChange}
+        />
         <label htmlFor="sendNotifications">Send Text & Email</label>
       </div>
       <button
@@ -99,7 +247,7 @@ const InquiryForm = () => {
   );
 };
 
-const InputField = ({ label, placeholder, type = "text", required }) => {
+const InputField = ({ label, placeholder, type = "text", name, value, onChange, required }) => {
   return (
     <div className="flex flex-col">
       <label className="font-semibold mb-1">
@@ -107,21 +255,30 @@ const InputField = ({ label, placeholder, type = "text", required }) => {
       </label>
       <input
         type={type}
+        name={name}
         placeholder={placeholder}
         className="border border-gray-300 rounded-lg p-2"
+        value={value}
+        onChange={onChange}
         required={required}
       />
     </div>
   );
 };
 
-const SelectField = ({ label, options, required }) => {
+const SelectField = ({ label, options, name, value, onChange, required }) => {
   return (
     <div className="flex flex-col">
       <label className="font-semibold mb-1">
         {label} {required && <span className="text-red-500">*</span>}
       </label>
-      <select className="border border-gray-300 rounded-lg p-2" required={required}>
+      <select
+        name={name}
+        className="border border-gray-300 rounded-lg p-2"
+        value={value}
+        onChange={onChange}
+        required={required}
+      >
         {options.map((option, index) => (
           <option key={index} value={option}>
             {option}
