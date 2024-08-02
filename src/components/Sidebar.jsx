@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaPhone, FaRegClock, FaDollarSign, FaCalendarAlt, FaBirthdayCake, FaGift, FaCalendarDay } from 'react-icons/fa';
+import { FaPhone, FaRegClock, FaDollarSign, FaCalendarAlt, FaBirthdayCake, FaGift, FaCalendarDay, FaTachometerAlt } from 'react-icons/fa';
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -14,10 +14,11 @@ const Sidebar = () => {
   return (
     <div className="bg-white shadow-md w-64 p-4 rounded-lg">
       <div
-        className={`py-2 px-4 rounded-t-lg font-semibold cursor-pointer ${activeTab === 'quick-manage' ? 'bg-gradient-to-r from-pink-500 to-purple-500 text-white' : 'bg-gradient-to-r from-pink-500 to-purple-500 text-white'}`}
+        className={`flex items-center space-x-2 py-2 px-4 rounded-md cursor-pointer ${activeTab === 'quick-manage' ? 'bg-gradient-to-r from-pink-500 to-purple-500 text-white' : 'hover:bg-gray-200'}`}
         onClick={() => handleNavigation('/', 'quick-manage')}
       >
-        Quick Manage
+        <FaTachometerAlt className="text-gray-700" />
+        <span>Quick Manage</span>
       </div>
       <ul className="mt-4 space-y-2">
         <li
@@ -67,7 +68,7 @@ const Sidebar = () => {
           onClick={() => handleNavigation('/anniversaries', 'anniversaries')}
         >
           <FaGift className="text-gray-700" />
-          <span>Anniversary</span>
+          <span>Anniversaries</span>
         </li>
         <li
           className={`flex items-center space-x-2 hover:bg-gray-200 p-2 rounded-md cursor-pointer ${activeTab === 'todays-schedule' ? 'bg-gradient-to-r from-pink-500 to-purple-500 text-white' : ''}`}
