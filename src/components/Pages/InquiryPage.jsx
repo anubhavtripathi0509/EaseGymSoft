@@ -50,7 +50,13 @@ const InquiryPage = () => {
       responseFeedback: formData.responseFeedback,
       sendNotifications: formData.sendNotifications,
     };
-    setInquiries([...inquiries, newInquiry]);
+  
+    // Save new inquiry to localStorage
+    const storedInquiries = JSON.parse(localStorage.getItem('inquiries')) || [];
+    storedInquiries.push(newInquiry);
+    localStorage.setItem('inquiries', JSON.stringify(storedInquiries));
+  
+    setInquiries(storedInquiries);
     setFormData({
       firstName: '',
       lastName: '',
@@ -71,6 +77,7 @@ const InquiryPage = () => {
       sendNotifications: false,
     });
   };
+  
 
   return (
     <div className="p-4 bg-blue-50 min-h-screen">

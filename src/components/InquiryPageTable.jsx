@@ -1,12 +1,24 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FaEllipsisV } from 'react-icons/fa';
 import { createPortal } from 'react-dom';
 
-const InquiryPageTable = ({ inquiries, setInquiries }) => {
+const InquiryPageTable = ({ setInquiries }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [openDropdown, setOpenDropdown] = useState(null);
   const dropdownRef = useRef(null);
   const dropdownButtonRefs = useRef([]);
+  const [inquiries, setLocalInquiries] = useState([]);
+
+  useEffect(() => {
+    // Retrieve inquiries from localStorage on component mount
+    const storedInquiries = JSON.parse(localStorage.getItem('inquiries')) || [];
+    setLocalInquiries(storedInquiries);
+  }, []);
+
+  useEffect(() => {
+    // Update the parent component with local inquiries
+    setInquiries(inquiries);
+  }, [inquiries, setInquiries]);
 
   const handleDropdownToggle = (index) => {
     setOpenDropdown((prev) => (prev === index ? null : index));
@@ -29,7 +41,8 @@ const InquiryPageTable = ({ inquiries, setInquiries }) => {
     const updatedInquiries = inquiries.map((inquiry, i) =>
       i === index ? { ...inquiry, status } : inquiry
     );
-    setInquiries(updatedInquiries);
+    setLocalInquiries(updatedInquiries);
+    localStorage.setItem('inquiries', JSON.stringify(updatedInquiries));
     setOpenDropdown(null); // Close dropdown after selection
   };
 
