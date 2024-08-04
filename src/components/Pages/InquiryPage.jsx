@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../Navbar';
 import InquiryPageTable from '../InquiryPageTable';
 
@@ -25,6 +25,12 @@ const InquiryPage = () => {
 
   const [inquiries, setInquiries] = useState([]);
 
+  useEffect(() => {
+    // Retrieve inquiries from localStorage on component mount
+    const storedInquiries = JSON.parse(localStorage.getItem('inquiries')) || [];
+    setInquiries(storedInquiries);
+  }, []);
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
@@ -50,13 +56,12 @@ const InquiryPage = () => {
       responseFeedback: formData.responseFeedback,
       sendNotifications: formData.sendNotifications,
     };
-  
+
     // Save new inquiry to localStorage
-    const storedInquiries = JSON.parse(localStorage.getItem('inquiries')) || [];
-    storedInquiries.push(newInquiry);
-    localStorage.setItem('inquiries', JSON.stringify(storedInquiries));
-  
-    setInquiries(storedInquiries);
+    const updatedInquiries = [...inquiries, newInquiry];
+    localStorage.setItem('inquiries', JSON.stringify(updatedInquiries));
+    setInquiries(updatedInquiries);
+
     setFormData({
       firstName: '',
       lastName: '',
@@ -77,7 +82,6 @@ const InquiryPage = () => {
       sendNotifications: false,
     });
   };
-  
 
   return (
     <div className="p-4 bg-blue-50 min-h-screen">
