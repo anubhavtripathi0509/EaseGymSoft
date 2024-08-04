@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Navbar from '../Navbar';
-import FollowUp from '../FollowUP';
+import InquiryPageTable from '../InquiryPageTable';
 
 const InquiryPage = () => {
   const [formData, setFormData] = useState({
@@ -23,7 +23,7 @@ const InquiryPage = () => {
     sendNotifications: false,
   });
 
-  const [followUps, setFollowUps] = useState([]);
+  const [inquiries, setInquiries] = useState([]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -35,9 +35,10 @@ const InquiryPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newFollowUp = {
+    const newInquiry = {
       id: Date.now(),
       clientName: `${formData.firstName} ${formData.lastName}`,
+      contactNumber: formData.contactNumber,
       followUpDate: formData.followUpDate,
       followUpTime: formData.followUpTime,
       assessmentDate: formData.assessmentDate,
@@ -49,7 +50,7 @@ const InquiryPage = () => {
       responseFeedback: formData.responseFeedback,
       sendNotifications: formData.sendNotifications,
     };
-    setFollowUps([...followUps, newFollowUp]);
+    setInquiries([...inquiries, newInquiry]);
     setFormData({
       firstName: '',
       lastName: '',
@@ -73,28 +74,16 @@ const InquiryPage = () => {
 
   return (
     <div className="p-4 bg-blue-50 min-h-screen">
-
-        <Navbar />
-        
-      <div className="flex justify-between items-center mb-4">
-        <div>
-          <select className="border border-gray-300 rounded-lg p-2 mr-2">
-            <option>Contact No.</option>
-          </select>
-          <input
-            type="text"
-            placeholder="Search for Client, Name, Phone, E-Mail, Client ID/Biometric ID"
-            className="border border-gray-300 rounded-lg p-2"
-          />
-        </div>
-      </div>
+      <Navbar />
       <div className="bg-green-500 text-white p-4 rounded-t-lg">
         <h2 className="text-xl font-semibold">Create new Inquiry</h2>
       </div>
       <div className="bg-white p-4 rounded-b-lg shadow-lg">
         <InquiryForm formData={formData} handleChange={handleChange} handleSubmit={handleSubmit} />
+        <div className="mt-6">
+          <InquiryPageTable inquiries={inquiries} setInquiries={setInquiries} />
+        </div>
       </div>
-      <FollowUp followUps={followUps} />
     </div>
   );
 };
@@ -119,7 +108,7 @@ const InquiryForm = ({ formData, handleChange, handleSubmit }) => {
         required
       />
       <InputField
-        label="Contact number"
+        label="Contact Number"
         name="contactNumber"
         placeholder="Contact Number"
         value={formData.contactNumber}
@@ -134,7 +123,7 @@ const InquiryForm = ({ formData, handleChange, handleSubmit }) => {
         onChange={handleChange}
       />
       <InputField
-        label="E-Mail"
+        label="Email"
         name="email"
         placeholder="Email Account"
         value={formData.email}
@@ -157,7 +146,7 @@ const InquiryForm = ({ formData, handleChange, handleSubmit }) => {
         onChange={handleChange}
       />
       <InputField
-        label="Schedule follow-up"
+        label="Follow-Up Date"
         name="followUpDate"
         type="date"
         value={formData.followUpDate}
@@ -165,14 +154,14 @@ const InquiryForm = ({ formData, handleChange, handleSubmit }) => {
         required
       />
       <InputField
-        label="Schedule follow-up time"
+        label="Follow-Up Time"
         name="followUpTime"
         placeholder="Enter Time"
         value={formData.followUpTime}
         onChange={handleChange}
       />
       <InputField
-        label="Assessment date"
+        label="Assessment Date"
         name="assessmentDate"
         type="date"
         value={formData.assessmentDate}
@@ -203,7 +192,7 @@ const InquiryForm = ({ formData, handleChange, handleSubmit }) => {
         required
       />
       <SelectField
-        label="Inquiry for"
+        label="Inquiry For"
         name="inquiryFor"
         options={["--Select--"]}
         value={formData.inquiryFor}
@@ -211,81 +200,75 @@ const InquiryForm = ({ formData, handleChange, handleSubmit }) => {
         required
       />
       <InputField
-        label="Attended by"
+        label="Attended By"
         name="attendedBy"
         placeholder="Admin"
         value={formData.attendedBy}
         onChange={handleChange}
-      />
-      <InputField
-        label="Response / feedback"
-        name="responseFeedback"
-        placeholder=""
-        value={formData.responseFeedback}
-        onChange={handleChange}
         required
       />
-      <div className="col-span-1 md:col-span-2 lg:col-span-4 flex items-center">
+      <InputField
+        label="Response Feedback"
+        name="responseFeedback"
+        placeholder="Response/Feedback"
+        value={formData.responseFeedback}
+        onChange={handleChange}
+      />
+      <div className="flex items-center">
         <input
           type="checkbox"
           id="sendNotifications"
           name="sendNotifications"
-          className="mr-2"
           checked={formData.sendNotifications}
           onChange={handleChange}
+          className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
         />
-        <label htmlFor="sendNotifications">Send Text & Email</label>
+        <label htmlFor="sendNotifications" className="ml-2 text-sm text-gray-600">
+          Send Notifications
+        </label>
       </div>
       <button
         type="submit"
         className="col-span-1 md:col-span-2 lg:col-span-4 bg-pink-500 text-white p-2 rounded-lg shadow-lg mt-4"
       >
-        CREATE INQUIRY
+        Create Inquiry
       </button>
     </form>
   );
 };
 
-const InputField = ({ label, placeholder, type = "text", name, value, onChange, required }) => {
-  return (
-    <div className="flex flex-col">
-      <label className="font-semibold mb-1">
-        {label} {required && <span className="text-red-500">*</span>}
-      </label>
-      <input
-        type={type}
-        name={name}
-        placeholder={placeholder}
-        className="border border-gray-300 rounded-lg p-2"
-        value={value}
-        onChange={onChange}
-        required={required}
-      />
-    </div>
-  );
-};
+const InputField = ({ label, name, type = "text", placeholder, value, onChange, required }) => (
+  <div>
+    <label className="block text-gray-700">{label}</label>
+    <input
+      type={type}
+      name={name}
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+      className="border border-gray-300 rounded-lg p-2 w-full"
+      required={required}
+    />
+  </div>
+);
 
-const SelectField = ({ label, options, name, value, onChange, required }) => {
-  return (
-    <div className="flex flex-col">
-      <label className="font-semibold mb-1">
-        {label} {required && <span className="text-red-500">*</span>}
-      </label>
-      <select
-        name={name}
-        className="border border-gray-300 rounded-lg p-2"
-        value={value}
-        onChange={onChange}
-        required={required}
-      >
-        {options.map((option, index) => (
-          <option key={index} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
-    </div>
-  );
-};
+const SelectField = ({ label, name, options, value, onChange, required }) => (
+  <div>
+    <label className="block text-gray-700">{label}</label>
+    <select
+      name={name}
+      value={value}
+      onChange={onChange}
+      className="border border-gray-300 rounded-lg p-2 w-full"
+      required={required}
+    >
+      {options.map((option, index) => (
+        <option key={index} value={option}>
+          {option}
+        </option>
+      ))}
+    </select>
+  </div>
+);
 
 export default InquiryPage;

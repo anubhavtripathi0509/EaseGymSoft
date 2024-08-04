@@ -30,7 +30,7 @@ const Sidebar = () => {
         </li>
         <li
           className={`flex items-center space-x-2 hover:bg-gray-200 p-2 rounded-md cursor-pointer ${activeTab === 'pending-inquiries' ? 'bg-gradient-to-r from-pink-500 to-purple-500 text-white' : ''}`}
-          onClick={() => handleNavigation('/pending-inquiries', 'pending-inquiries')}
+          onClick={() => handleNavigation('/inquiry-table', 'pending-inquiries')}
         >
           <FaRegClock className="text-gray-700" />
           <span>Pending Inquiries</span>
