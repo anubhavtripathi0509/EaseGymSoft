@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import { InquiryContext } from '../Context/InquiryContext';
 import Navbar from '../Navbar';
 import InquiryPageTable from '../InquiryPageTable';
 
 const InquiryPage = () => {
+  const { inquiries, setInquiries } = useContext(InquiryContext);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -22,14 +24,6 @@ const InquiryPage = () => {
     responseFeedback: '',
     sendNotifications: false,
   });
-
-  const [inquiries, setInquiries] = useState([]);
-
-  useEffect(() => {
-    // Retrieve inquiries from localStorage on component mount
-    const storedInquiries = JSON.parse(localStorage.getItem('inquiries')) || [];
-    setInquiries(storedInquiries);
-  }, []);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -57,9 +51,7 @@ const InquiryPage = () => {
       sendNotifications: formData.sendNotifications,
     };
 
-    // Save new inquiry to localStorage
     const updatedInquiries = [...inquiries, newInquiry];
-    localStorage.setItem('inquiries', JSON.stringify(updatedInquiries));
     setInquiries(updatedInquiries);
 
     setFormData({
@@ -85,7 +77,6 @@ const InquiryPage = () => {
 
   return (
     <div className="p-4 bg-blue-50 min-h-screen">
-      {/* <Navbar /> */}
       <div className="bg-green-500 text-white p-4 rounded-t-lg">
         <h2 className="text-xl font-semibold">Create new Inquiry</h2>
       </div>
@@ -102,6 +93,7 @@ const InquiryPage = () => {
 const InquiryForm = ({ formData, handleChange, handleSubmit }) => {
   return (
     <form className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" onSubmit={handleSubmit}>
+      {/* InputField and SelectField components as before */}
       <InputField
         label="First Name"
         name="firstName"
@@ -249,32 +241,38 @@ const InquiryForm = ({ formData, handleChange, handleSubmit }) => {
 };
 
 const InputField = ({ label, name, type = "text", placeholder, value, onChange, required }) => (
-  <div>
-    <label className="block text-gray-700">{label}</label>
+  <div className="flex flex-col">
+    <label htmlFor={name} className="mb-1 text-sm text-gray-600">
+      {label}
+    </label>
     <input
       type={type}
+      id={name}
       name={name}
       placeholder={placeholder}
       value={value}
       onChange={onChange}
-      className="border border-gray-300 rounded-lg p-2 w-full"
       required={required}
+      className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300"
     />
   </div>
 );
 
 const SelectField = ({ label, name, options, value, onChange, required }) => (
-  <div>
-    <label className="block text-gray-700">{label}</label>
+  <div className="flex flex-col">
+    <label htmlFor={name} className="mb-1 text-sm text-gray-600">
+      {label}
+    </label>
     <select
+      id={name}
       name={name}
       value={value}
       onChange={onChange}
-      className="border border-gray-300 rounded-lg p-2 w-full"
       required={required}
+      className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300"
     >
-      {options.map((option, index) => (
-        <option key={index} value={option}>
+      {options.map((option) => (
+        <option key={option} value={option}>
           {option}
         </option>
       ))}

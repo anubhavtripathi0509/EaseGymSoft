@@ -1,8 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { FaEllipsisV } from 'react-icons/fa';
 import { createPortal } from 'react-dom';
+import { InquiryContext } from './Context/InquiryContext';
 
-const InquiryPageTable = ({ inquiries, setInquiries, filterStatus }) => {
+const InquiryPageTable = ({ filterStatus }) => {
+  const { inquiries, setInquiries } = useContext(InquiryContext);
   const [searchTerm, setSearchTerm] = useState('');
   const [openDropdown, setOpenDropdown] = useState(null);
   const dropdownRef = useRef(null);
@@ -34,13 +36,11 @@ const InquiryPageTable = ({ inquiries, setInquiries, filterStatus }) => {
       i === index ? { ...inquiry, status } : inquiry
     );
     setInquiries(updatedInquiries);
-    localStorage.setItem('inquiries', JSON.stringify(updatedInquiries));
   };
 
   const handleDelete = (index) => {
     const updatedInquiries = inquiries.filter((_, i) => i !== index);
     setInquiries(updatedInquiries);
-    localStorage.setItem('inquiries', JSON.stringify(updatedInquiries));
   };
 
   const filteredInquiries = inquiries.filter((inquiry) =>
@@ -114,19 +114,19 @@ const InquiryPageTable = ({ inquiries, setInquiries, filterStatus }) => {
                       >
                         <a
                           onClick={() => handleStatusChange(index, 'Pending')}
-                          className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                          className="block px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer"
                         >
                           Pending
                         </a>
                         <a
                           onClick={() => handleStatusChange(index, 'Done')}
-                          className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                          className="block px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer"
                         >
                           Done
                         </a>
                         <a
                           onClick={() => handleDelete(index)}
-                          className="block px-4 py-2 text-red-600 hover:bg-red-100"
+                          className="block px-4 py-2 text-red-600 hover:bg-red-100 cursor-pointer"
                         >
                           Delete
                         </a>
