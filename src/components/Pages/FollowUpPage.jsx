@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Navbar from '../Navbar';
 import FollowUpTable from '../FollowUpTable';
 import FollowUpModal from '../FollowUpModal';
 
@@ -19,6 +20,7 @@ const FollowUpPage = () => {
 
   return (
     <div className="p-4 bg-gradient-to-r from-blue-50 to-blue-100 min-h-screen">
+      {/* <Navbar /> */}
       <div className="flex justify-between items-center mb-4 bg-blue-50 p-4 rounded-lg shadow-md">
         <div className="flex space-x-4">
           <select className="p-2 border border-gray-300 rounded-md">

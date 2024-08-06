@@ -5,7 +5,7 @@ import { FaRegChartBar, FaRegCalendarAlt, FaUserPlus, FaRupeeSign, FaUserClock, 
 const MainContent = () => {
   return (
     <div className="p-4 bg-blue-50 min-h-screen">
-        <Navbar />
+        {/* <Navbar /> */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
         <StatCard title="New clients" value="3" color="bg-green-100" icon={<FaUserPlus className="text-green-500" />} />
         <StatCard title="Total collection" value="2,003.00" color="bg-purple-100" icon={<FaRegChartBar className="text-purple-500" />} />

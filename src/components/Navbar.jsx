@@ -17,24 +17,24 @@ const Navbar = () => {
 
   return (
     <>
-    <h1 className="text-2xl font-bold mb-4">Welcome, Admin</h1>
-    <nav className="flex flex-wrap gap-2 mb-4">
-      {navItems.map((item, index) => (
-        <NavLink
-          key={index}
-          to={item.path}
-          className={({ isActive }) =>
-            `px-4 py-2 rounded-lg ${
-              isActive
-                ? "bg-pink-500 text-white"
-                : "bg-gray-100 text-gray-700"
-            }`
-          }
-        >
-          {item.name}
-        </NavLink>
-      ))}
-    </nav>
+      <h1 className="text-2xl font-bold mb-4">Welcome, Admin</h1>
+      <nav className="flex flex-wrap gap-2 mb-4">
+        {navItems.map((item, index) => (
+          <NavLink
+            key={index}
+            to={item.path}
+            className={({ isActive }) =>
+              `px-4 py-2 rounded-lg ${
+                isActive
+                  ? "bg-pink-500 text-white"
+                  : "bg-gray-100 text-gray-700"
+              }`
+            }
+          >
+            {item.name}
+          </NavLink>
+        ))}
+      </nav>
     </>
   );
 };

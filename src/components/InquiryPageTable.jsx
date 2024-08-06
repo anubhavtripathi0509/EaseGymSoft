@@ -2,11 +2,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import { FaEllipsisV } from 'react-icons/fa';
 import { createPortal } from 'react-dom';
 
-const InquiryPageTable = ({ inquiries, setInquiries }) => {
+const InquiryPageTable = ({ inquiries, setInquiries, filterStatus }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [openDropdown, setOpenDropdown] = useState(null);
   const dropdownRef = useRef(null);
   const dropdownButtonRefs = useRef([]);
+
+  useEffect(() => {
+    setSearchTerm('');
+  }, [inquiries]);
 
   const handleDropdownToggle = (index) => {
     setOpenDropdown((prev) => (prev === index ? null : index));
@@ -31,15 +35,21 @@ const InquiryPageTable = ({ inquiries, setInquiries }) => {
     );
     setInquiries(updatedInquiries);
     localStorage.setItem('inquiries', JSON.stringify(updatedInquiries));
-    setOpenDropdown(null); // Close dropdown after selection
+  };
+
+  const handleDelete = (index) => {
+    const updatedInquiries = inquiries.filter((_, i) => i !== index);
+    setInquiries(updatedInquiries);
+    localStorage.setItem('inquiries', JSON.stringify(updatedInquiries));
   };
 
   const filteredInquiries = inquiries.filter((inquiry) =>
-    inquiry.clientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (filterStatus ? inquiry.status === filterStatus : true) &&
+    (inquiry.clientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
     inquiry.contactNumber.includes(searchTerm) ||
     inquiry.inquiryFor.toLowerCase().includes(searchTerm) ||
     inquiry.attendedBy.toLowerCase().includes(searchTerm) ||
-    inquiry.status.toLowerCase().includes(searchTerm)
+    inquiry.status.toLowerCase().includes(searchTerm))
   );
 
   return (
@@ -115,10 +125,10 @@ const InquiryPageTable = ({ inquiries, setInquiries }) => {
                           Done
                         </a>
                         <a
-                          onClick={() => handleStatusChange(index, 'Option 3')}
-                          className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                          onClick={() => handleDelete(index)}
+                          className="block px-4 py-2 text-red-600 hover:bg-red-100"
                         >
-                          Option 3
+                          Delete
                         </a>
                       </div>,
                       document.body

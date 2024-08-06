@@ -85,7 +85,7 @@ const InquiryPage = () => {
 
   return (
     <div className="p-4 bg-blue-50 min-h-screen">
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="bg-green-500 text-white p-4 rounded-t-lg">
         <h2 className="text-xl font-semibold">Create new Inquiry</h2>
       </div>
