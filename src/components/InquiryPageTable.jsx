@@ -53,7 +53,7 @@ const InquiryPageTable = ({ filterStatus }) => {
   );
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-lg mt-4">
+    <div className="bg-white p-4 rounded-lg shadow-lg mt-2">
       <div className="bg-green-500 text-white p-4 rounded-t-lg">
         <h2 className="text-xl font-semibold">Follow-Up List</h2>
       </div>
