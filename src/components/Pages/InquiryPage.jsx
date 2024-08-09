@@ -98,7 +98,6 @@ const InquiryPage = () => {
 const InquiryForm = ({ formData, handleChange, handleSubmit }) => {
   return (
     <form className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" onSubmit={handleSubmit}>
-      {/* InputField and SelectField components as before */}
       <InputField
         label="First Name"
         name="firstName"
