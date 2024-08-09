@@ -1,11 +1,12 @@
 import React from 'react';
 import Navbar from '../Navbar';
 import { FaRegChartBar, FaRegCalendarAlt, FaUserPlus, FaRupeeSign, FaUserClock, FaHeartbeat, FaCalendarCheck, FaUserTie, FaClipboardList, FaCalendarDay, FaWalking } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const MainContent = () => {
   return (
     <div className="p-4 bg-blue-50 min-h-screen">
-        {/* <Navbar /> */}
+      {/* <Navbar /> */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
         <StatCard title="New clients" value="3" color="bg-green-100" icon={<FaUserPlus className="text-green-500" />} />
         <StatCard title="Total collection" value="2,003.00" color="bg-purple-100" icon={<FaRegChartBar className="text-purple-500" />} />
@@ -18,10 +19,27 @@ const MainContent = () => {
         <StatCard title="Today Present Client" value="1" color="bg-purple-100" icon={<FaClipboardList className="text-purple-500" />} />
       </div>
       <div className="flex space-x-4 mb-4">
-        <ButtonCard title="Create Walk-In" color="bg-gradient-to-r from-pink-500 to-purple-500" icon={<FaWalking className="text-white" />} />
-        <ButtonCard title="Create Client" color="bg-gradient-to-r from-purple-500 to-blue-500" icon={<FaUserPlus className="text-white" />} />
-        <ButtonCard title="Create Booking" color="bg-gradient-to-r from-green-500 to-teal-500" icon={<FaRegCalendarAlt className="text-white" />} />
-        <ButtonCard title="Add training plan" color="bg-gradient-to-r from-red-500 to-pink-500" icon={<FaHeartbeat className="text-white" />} />
+        <ButtonCard 
+          title="Create Walk-In" 
+          color="bg-gradient-to-r from-pink-500 to-purple-500" 
+          icon={<FaWalking className="text-white" />} 
+        />
+        <ButtonCard 
+          title="Create Client" 
+          color="bg-gradient-to-r from-purple-500 to-blue-500" 
+          icon={<FaUserPlus className="text-white" />} 
+          navigateTo="/addclients"
+        />
+        <ButtonCard 
+          title="Create Booking" 
+          color="bg-gradient-to-r from-green-500 to-teal-500" 
+          icon={<FaRegCalendarAlt className="text-white" />} 
+        />
+        <ButtonCard 
+          title="Add training plan" 
+          color="bg-gradient-to-r from-red-500 to-pink-500" 
+          icon={<FaHeartbeat className="text-white" />} 
+        />
       </div>
     </div>
   );
@@ -41,9 +59,20 @@ const StatCard = ({ title, value, color, icon }) => {
   );
 };
 
-const ButtonCard = ({ title, color, icon }) => {
+const ButtonCard = ({ title, color, icon, navigateTo }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    if (navigateTo) {
+      navigate(navigateTo);
+    }
+  };
+
   return (
-    <div className={`p-4 ${color} rounded-lg shadow-md flex items-center justify-center cursor-pointer`}>
+    <div 
+      onClick={handleClick} 
+      className={`p-4 ${color} rounded-lg shadow-md flex items-center justify-center cursor-pointer`}
+    >
       <div className="text-2xl mr-2">
         {icon}
       </div>
